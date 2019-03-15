@@ -9,18 +9,31 @@ class App extends React.Component{
         //reference to parent constructor function
 
         this.state = {
-            lat: null //we don't know latitude yet 
+            lat: null, //we don't know latitude yet 
+            errorMessage: ''
         }; //only place where we do this.state = something..else we always use this.setState
         window.navigator.geolocation.getCurrentPosition(
             (position) => {
                 this.setState({lat: position.coords.latitude});
             }, //callback for success
-            (err) =>  console.log(err)//callback for failure
+            (err) =>  {
+                console.log(err);
+                this.setState({errorMessage: err.message});
+            }//callback for failure
         );
     }
 
     render(){
-        return <div>Latitude:{this.state.lat}</div>;
+
+        if(this.state.errorMessage && !this.state.lat) {
+            return <div> Error: {this.state.errorMessage}</div>;
+        }
+
+        if(!this.state.errorMessage && this.state.lat){
+            return <div> Latitude:{this.state.lat} </div>;
+        }
+
+        return <div>Loading...</div>
     }
 }
 ReactDOM.render(
