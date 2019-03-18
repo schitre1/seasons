@@ -1,19 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import SeasonDisplay from './SeasonDisplay';
 
 class App extends React.Component{
-    constructor(props){ //particular to JS language
-        //good location to initliaze state as this is called 
-        //when any instance of compoennt is created
-        super(props); //since we are overriding function, makes sense to call predefined steps first
-        //reference to parent constructor function
-
-        this.state = {
-            lat: null, //we don't know latitude yet 
-            errorMessage: ''
-        }; //only place where we do this.state = something..else we always use this.setState
-        
-    }
+    state = { lat: null, //we don't know latitude yet 
+        errorMessage: ''}; 
 
     componentDidMount(){
         window.navigator.geolocation.getCurrentPosition(
@@ -33,7 +24,7 @@ class App extends React.Component{
         }
 
         if(!this.state.errorMessage && this.state.lat){
-            return <div> Latitude:{this.state.lat} </div>;
+            return <SeasonDisplay lat={this.state.lat}/>; //passing state as props
         }
 
         return <div>Loading...</div>
