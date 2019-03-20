@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import SeasonDisplay from './SeasonDisplay';
+import Spinner from './Spinner';
 
 class App extends React.Component{
     state = { lat: null, //we don't know latitude yet 
@@ -17,8 +18,7 @@ class App extends React.Component{
         console.log('My component was just updated - it rerendered');
     }
 
-    render(){
-
+    renderContent() {
         if(this.state.errorMessage && !this.state.lat) {
             return <div> Error: {this.state.errorMessage}</div>;
         }
@@ -27,7 +27,15 @@ class App extends React.Component{
             return <SeasonDisplay lat={this.state.lat}/>; //passing state as props
         }
 
-        return <div>Loading...</div>
+        return <Spinner message="Please accept location request"/>;
+    }
+
+    render(){
+        return (
+        <div className="border red">
+            {this.renderContent()}
+        </div>
+        );
     }
 }
 ReactDOM.render(
